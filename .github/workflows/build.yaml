@@ -29,3 +29,8 @@ jobs:
           include-hidden-files: true
           path: ${{ github.workspace }}/quarkus/dist/target/keycloak-*.zip
           name: keykloak
+      - name: Build Docker image
+        run: |
+          version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
+          cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz .
+          docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
