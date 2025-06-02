@@ -21,21 +21,18 @@ jobs:
         with:
           maven-version: 3.9.8
       - name: build
-        run: |
-          ./mvnw clean install -Pdistribution -Dskip.tests=true
-      - name: "Upload files"
-        uses: actions/upload-artifact@v4
+        uses: ./.github/actions/build-keycloak
         with:
-          include-hidden-files: true
-          path: ${{ github.workspace }}/quarkus/dist/target/keycloak-*.zip
-          name: keykloak
-      - name: Build Docker image
+          upload-m2-repo: true
+          upload-dist: true
+
+      - name: Build Docker image preparation
         run: |
           version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
           echo "keycloak_version=${version,,}" >> $GITHUB_ENV
           cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz .
-          cd $GITHUB_WORKSPACE/quarkus/container
-          docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
+      #     cd $GITHUB_WORKSPACE/quarkus/container
+      #     docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
       - name: Build docker image
         uses: netcracker/qubership-workflow-hub/actions/docker-action@v1.0.2
         with:
