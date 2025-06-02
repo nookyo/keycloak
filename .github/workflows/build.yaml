@@ -31,14 +31,14 @@ jobs:
           version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
           echo "keycloak_version=${version,,}" >> $GITHUB_ENV
           cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz .
-      #     cd $GITHUB_WORKSPACE/quarkus/container
-      #     docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
-      - name: Build docker image
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@v1.0.2
-        with:
-          ref: ${{ github.ref }}
-          component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg KEYCLOAK_DIST ./quarkus/container"}]'
-          tags: ${{ env.keycloak_version }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          KEYCLOAK_DIST: keycloak-${{ env.keycloak_version }}.tar.gz
+          cd $GITHUB_WORKSPACE/quarkus/container
+          docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
+      # - name: Build docker image
+      #   uses: netcracker/qubership-workflow-hub/actions/docker-action@v1.0.2
+      #   with:
+      #     ref: ${{ github.ref }}
+      #     component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg KEYCLOAK_DIST ./quarkus/container"}]'
+      #     tags: ${{ env.keycloak_version }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #     KEYCLOAK_DIST: keycloak-${{ env.keycloak_version }}.tar.gz
