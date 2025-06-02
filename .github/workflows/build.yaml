@@ -31,8 +31,8 @@ jobs:
           version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
           echo "keycloak_version=${version,,}" >> $GITHUB_ENV
           ls -la $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz
-          cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-*.tar.gz .
           cd $GITHUB_WORKSPACE/quarkus/container
+          cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-*.tar.gz .
           echo $PWD
           docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version,,} .
       # - name: Build docker image
