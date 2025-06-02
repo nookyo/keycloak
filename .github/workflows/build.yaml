@@ -32,5 +32,14 @@ jobs:
       - name: Build Docker image
         run: |
           version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
+          echo "keycloak_version=${version}" >> $GITHUB_ENV
           cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz .
+          cd $GITHUB_WORKSPACE/quarkus/container
           docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version} .
+      - name: Build docker image
+        uses: qubership-workflow-hub/actions/docker-action@1.0.2
+        with:
+          ref: ${{ github.ref }}
+          component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz ./quarkus/container"}]'
+          tags: ${{ env.keycloak_version }}
+
