@@ -1,0 +1,31 @@
+---
+
+name: build tar
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: 21
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.8
+      - name: build
+        run: |
+          ./mvnw clean install -Pdistribution -Dtests.skip=true
+      - name: "Upload files"
+        uses: actions/upload-artifact@v4
+        with:
+          include-hidden-files: true
+          path: ${{ github.workspace }}/quarkus/dist/target/keycloak-*.zip
+          name: keykloak
