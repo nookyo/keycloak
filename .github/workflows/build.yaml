@@ -37,7 +37,7 @@ jobs:
         uses: netcracker/qubership-workflow-hub/actions/docker-action@v1.0.2
         with:
           ref: ${{ github.ref }}
-          component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz ./quarkus/container"}]'
+          component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg \"KEYCLOAK_DIST=keycloak-${version}.tar.gz\" ./quarkus/container"}]'
           tags: ${{ env.keycloak_version }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
