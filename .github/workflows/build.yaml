@@ -39,4 +39,5 @@ jobs:
           ref: ${{ github.ref }}
           component: '[{"name": "keycloak", "file": "./quarkus/container/Dockerfile", "context": "--build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz ./quarkus/container"}]'
           tags: ${{ env.keycloak_version }}
-
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
