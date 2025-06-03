@@ -39,7 +39,7 @@ jobs:
           context: ${{ github.workspace }}/quarkus/container
           file: ${{ github.workspace }}/quarkus/container/Dockerfile
           build-args: |
-            KEYCLOAK_DIST=keycloak-${{ env.keycloak_version }}.tar.gz
+            KEYCLOAK_DIST=${{ github.workspace }}/quarkus/container/keycloak-${{ env.keycloak_version }}.tar.gz
           push: 'true'
           tags: keycloak:${{ env.keycloak_version }},${{ github.repository }}:${{ github.workflow_sha }}
           platforms: linux/amd64
