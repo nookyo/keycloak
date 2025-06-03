@@ -48,6 +48,8 @@ jobs:
           build-args: |
             KEYCLOAK_DIST=${{ env.keycloak_tar }}
           push: 'true'
-          tags: keycloak:${{ env.keycloak_version }},${{ github.repository }}:${{ github.workflow_sha }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/keycloak:${{ env.keycloak_version }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.workflow_sha }}          
           platforms: linux/amd64
           github-token: ${{ secrets.GITHUB_TOKEN }}
