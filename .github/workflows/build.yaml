@@ -1,6 +1,6 @@
 ---
 
-name: Build disrt and docker
+name: Build dist and docker
 
 on:
   workflow_dispatch
