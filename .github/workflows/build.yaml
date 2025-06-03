@@ -1,10 +1,12 @@
 ---
 
-name: build zip
+name: Build disrt and docker
 
 on:
   workflow_dispatch
-
+permissions:
+  contents: read
+  packages: write
 jobs:
   build:
     runs-on: ubuntu-latest
