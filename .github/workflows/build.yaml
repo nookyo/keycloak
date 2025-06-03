@@ -30,11 +30,20 @@ jobs:
         run: |
           version=$(ls quarkus/dist/target/keycloak-*.tar.gz | cut -d'/' -f4 | sed "s/keycloak-\(.*\).tar.gz/\1/")
           echo "keycloak_version=${version,,}" >> $GITHUB_ENV
-          ls -la $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-${version}.tar.gz
-          cd $GITHUB_WORKSPACE/quarkus/container
-          cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-*.tar.gz .
-          echo $PWD
-          docker build --build-arg KEYCLOAK_DIST=keycloak-${version}.tar.gz -t ${version,,} .
+          cp $GITHUB_WORKSPACE/quarkus/dist/target/keycloak-*.tar.gz $GITHUB_WORKSPACE/quarkus/container
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          provenance: false
+          context: $GITHUB_WORKSPACE/quarkus/container
+          file: $GITHUB_WORKSPACE/quarkus/container/Dockerfile
+          build-args: |
+            KEYCLOAK_DIST=keycloak-${{ env.keycloak_version }}.tar.gz
+          push: 'true'
+          tags: keycloak:${{ env.keycloak_version }}
+          platforms: linux/amd64
+
       # - name: Build docker image
       #   uses: netcracker/qubership-workflow-hub/actions/docker-action@v1.0.2
       #   with:
