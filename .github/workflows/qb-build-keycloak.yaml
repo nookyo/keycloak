@@ -16,8 +16,9 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write
   packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
