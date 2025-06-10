@@ -10,9 +10,10 @@ on:
         required: true
         default: "v1"
       forceCreate:
+        type: boolean
         description: "Force tag creation"
         required: false
-        default: "false"
+        default: true
 
 permissions:
   contents: read
