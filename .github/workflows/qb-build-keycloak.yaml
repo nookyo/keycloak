@@ -49,7 +49,7 @@ jobs:
       - name:  List distribution files
         run: |
           echo "Distribution files:"
-          ls la
+          ls -la
           ls -l quarkus/dist/target/keycloak-*.tar.gz
       # - name: "Upload assets"
       #   uses: netcracker/qubership-workflow-hub/actions/assets-action@main
