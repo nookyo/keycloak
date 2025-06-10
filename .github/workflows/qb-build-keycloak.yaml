@@ -35,16 +35,16 @@ jobs:
           upload-m2-repo: true
           upload-dist: true
 
-      - name: Create a New Tag
-        uses: netcracker/qubership-workflow-hub/actions/tag-action@main
-        with:
-          ref: ${{ github.ref_name }}
-          tag-name: ${{ inputs.tag }}
-          force-create: ${{ inputs.forceCreate }}
-          switch-to-tag: true
-          create-release: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Create a New Tag
+      #   uses: netcracker/qubership-workflow-hub/actions/tag-action@main
+      #   with:
+      #     ref: ${{ github.ref_name }}
+      #     tag-name: ${{ inputs.tag }}
+      #     force-create: ${{ inputs.forceCreate }}
+      #     switch-to-tag: true
+      #     create-release: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name:  List distribution files
         run: |
