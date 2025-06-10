@@ -31,7 +31,7 @@ jobs:
           maven-version: 3.9.8
 
       - name: Create a New Tag
-        uses: nookyo/qubership-workflow-hub/actions/tag-action@main
+        uses: netcracker/qubership-workflow-hub/actions/tag-action@main
         with:
           ref: ${{ github.ref_name }}
           tag-name: ${{ inputs.tag }}
