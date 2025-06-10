@@ -51,13 +51,14 @@ jobs:
           echo "Distribution files:"
           ls -la
           ls -l quarkus/dist/target/keycloak-*.tar.gz
-      # - name: "Upload assets"
-      #   uses: netcracker/qubership-workflow-hub/actions/assets-action@main
-      #   with:
-      #     tag: ${{ inputs.tag }}
-      #     item-path: quarkus/dist/target/keycloak-*.tar.gz
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Upload assets"
+        uses: netcracker/qubership-workflow-hub/actions/assets-action@main
+        with:
+          tag: ${{ inputs.tag }}
+          item-path: quarkus/dist/target/keycloak-*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Build Docker image preparation
       #   run: |
