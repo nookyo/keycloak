@@ -28,11 +28,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: 3.9.8
-
       - name: Create a New Tag
         uses: nookyo/qubership-workflow-hub/actions/tag-action@main
         with:
@@ -44,6 +39,11 @@ jobs:
           skip-checkout: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.8
 
       - name: build
         uses: ./.github/actions/build-keycloak
