@@ -1,9 +1,19 @@
 ---
-
-name: Build dist and docker
+name: Build .tgz + image for Keycloak
+run-name: "Image for ${{ github.event.repository.name }}: ${{ github.run_number }} - ${{ github.actor }}"
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create"
+        required: true
+        default: "latest"
+      forceCreate:
+        description: "Force tag creation"
+        required: false
+        default: "false"
+
 permissions:
   contents: read
   packages: write
@@ -22,6 +32,25 @@ jobs:
         with:
           upload-m2-repo: true
           upload-dist: true
+
+      - name: Create a New Tag
+        uses: netcracker/qubership-workflow-hub/actions/tag-action@main
+        with:
+          ref: ${{ github.ref_name }}
+          tag-name: ${{ inputs.tag }}
+          force-create: ${{ inputs.forceCreate }}
+          switch-to-tag: true
+          create-release: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Upload assets"
+        uses: netcracker/qubership-workflow-hub/actions/assets-action@main
+        with:
+          tag: ${{ inputs.tag }}
+          item-path: quarkus/dist/target/keycloak-*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image preparation
         run: |
@@ -47,7 +76,7 @@ jobs:
           file: ${{ github.workspace }}/quarkus/container/Dockerfile
           build-args: |
             KEYCLOAK_DIST=${{ env.keycloak_tar }}
-          push: 'true'
+          push: "true"
           tags: |
             ghcr.io/${{ github.repository_owner }}/keycloak:${{ env.keycloak_version }}
           platforms: linux/amd64
