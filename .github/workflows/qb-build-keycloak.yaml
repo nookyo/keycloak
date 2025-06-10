@@ -31,13 +31,14 @@ jobs:
           maven-version: 3.9.8
 
       - name: Create a New Tag
-        uses: netcracker/qubership-workflow-hub/actions/tag-action@main
+        uses: nookyo/qubership-workflow-hub/actions/tag-action@main
         with:
           ref: ${{ github.ref_name }}
           tag-name: ${{ inputs.tag }}
           force-create: ${{ inputs.forceCreate }}
           switch-to-tag: true
           create-release: true
+          skip-checkout: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -46,13 +47,6 @@ jobs:
         with:
           upload-m2-repo: true
           upload-dist: true
-
-      - name:  List distribution files
-        run: |
-          echo "Distribution files:"
-          ls -la
-          ls -l quarkus/dist/target/keycloak-*.tar.gz
-          ls -la quarkus/dist/target/
 
       - name: "Upload assets"
         uses: netcracker/qubership-workflow-hub/actions/assets-action@main
